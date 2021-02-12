@@ -17,5 +17,18 @@ describe FareCalculator do
         expect(calculate).to eql(1.80)
       end
     end
+
+    context 'Given there is a missing swipe out' do
+      let(:journey) { Journey.new("tube") }
+      let(:daily_journies) { [journey] }
+
+      before do
+        journey.swipe_in("Holborn")
+      end
+
+      it 'returns the maximun fare of 3.20' do
+        expect(calculate).to eql(3.20)
+      end
+    end
   end
 end

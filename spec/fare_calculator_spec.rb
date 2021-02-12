@@ -62,5 +62,19 @@ describe FareCalculator do
         expect(calculate).to eql(2.25)
       end
     end
+
+    context 'Given single journey in zone one' do
+      let(:journey) { Journey.new("tube") }
+      let(:daily_journies) { [journey] }
+
+      before do
+        journey.swipe_in("Holborn")
+        journey.swipe_out("Earl’s Court")
+      end
+
+      it 'returns 2.50' do
+        expect(calculate).to eql(2.5)
+      end
+    end
   end
 end

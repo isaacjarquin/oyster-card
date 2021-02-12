@@ -11,6 +11,7 @@ class FareCalculator
     return 2.00 if any_one_zone_outside_zone_one?
     return 2.25 if any_two_zones_excluding_zone_one?
     return 2.50 if single_journey_in_zone_one?
+    return 3.00 if any_two_zones_including_zone_one?
 
      3.20
   end
@@ -42,6 +43,10 @@ class FareCalculator
 
   def single_journey_in_zone_one?
     (daily_journies.count === 1) && (any_journey_begin_in_zone_one? || any_journey_end_in_zone_one?)
+  end
+
+  def any_two_zones_including_zone_one?
+    (daily_journies.count === 2) && (any_journey_begin_in_zone_one? || any_journey_end_in_zone_one?)
   end
 
   def transport_by_bus?

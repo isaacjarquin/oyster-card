@@ -22,4 +22,14 @@ describe OysterCard do
       expect(oyster_card.new_journey("bus")).to be_an_instance_of(Journey)
     end
   end
+
+  describe 'todays_journey' do
+    it 'returns journeys from today' do
+      journey = oyster_card.new_journey("tube")
+      second_journey = oyster_card.new_journey("tube")
+
+      allow(second_journey).to receive(:date).and_return(Date.today - 1)
+      expect(oyster_card.todays_journey).to eql([journey])
+    end
+  end
 end

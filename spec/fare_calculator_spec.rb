@@ -44,5 +44,23 @@ describe FareCalculator do
         expect(calculate).to eql(2.0)
       end
     end
+
+    context 'Given two journeys ouside zone one' do
+      let(:journey) { Journey.new("tube") }
+      let(:second_journey) { Journey.new("tube") }
+      let(:daily_journies) { [journey, second_journey] }
+
+      before do
+        journey.swipe_in("Hammersmith")
+        journey.swipe_out("Wimbledon")
+
+        second_journey.swipe_in("Wimbledon")
+        second_journey.swipe_out("Hammersmith")
+      end
+
+      it 'returns 2.25' do
+        expect(calculate).to eql(2.25)
+      end
+    end
   end
 end

@@ -42,11 +42,11 @@ class FareCalculator
   end
 
   def single_journey_in_zone_one?
-    (daily_journies.count === 1) && (any_journey_begin_in_zone_one? || any_journey_end_in_zone_one?)
+    daily_journies.count === 1 && any_journey_in_zone_one?
   end
 
   def any_two_zones_including_zone_one?
-    (daily_journies.count === 2) && (any_journey_begin_in_zone_one? || any_journey_end_in_zone_one?)
+    daily_journies.count === 2 && any_journey_in_zone_one?
   end
 
   def transport_by_bus?
@@ -65,11 +65,10 @@ class FareCalculator
     daily_journies.all?{|journey| journey.zone_out != nil && !journey.zone_out.include?(1) }
   end
 
-  def any_journey_begin_in_zone_one?
-    daily_journies.any?{|journey| journey.zone_in != nil && journey.zone_in.include?(1) }
-  end
-
-  def any_journey_end_in_zone_one?
-    daily_journies.any?{|journey| journey.zone_out != nil && journey.zone_out.include?(1) }
+  def any_journey_in_zone_one?
+    daily_journies.any? do |journey|
+      (journey.zone_in != nil && journey.zone_in.include?(1)) ||
+      (journey.zone_out != nil && journey.zone_out.include?(1))
+    end
   end
 end

@@ -16,4 +16,10 @@ describe OysterCard do
       expect(oyster_card.update_balance(3.0)).to eql(27.0)
     end
   end
+
+  describe '#new_journey' do
+    it 'returns and instance of Journey' do
+      expect(oyster_card.new_journey("bus")).to be_an_instance_of(Journey)
+    end
+  end
 end

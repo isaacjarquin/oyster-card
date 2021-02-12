@@ -20,4 +20,9 @@ class Journey
     @station_in = station
     @zone_in = ZONES.fetch(station)
   end
+
+  def swipe_out(station)
+    @station_out = station
+    @zone_out = ZONES.fetch(station)
+  end
 end

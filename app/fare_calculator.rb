@@ -8,8 +8,9 @@ class FareCalculator
   def calculate
     return 1.80 if bus_journey?
     return 3.20 if tube_travel_missing_swipe_out?
+    return 2.00 if any_one_zone_outside_zone_one?
 
-     1.20
+     3.20
   end
 
   private
@@ -25,11 +26,25 @@ class FareCalculator
     daily_journies.any?{|journey| journey.zone_out === nil }
   end
 
+  def any_one_zone_outside_zone_one?
+    daily_journies.count === 1 &&
+    journies_begin_outside_zone_one? &&
+    journies_end_outside_zone_one?
+  end
+
   def transport_by_bus?
     daily_journies.all?{|journey| journey.transport === "bus" }
   end
 
   def transport_by_tube?
     daily_journies.all?{|journey| journey.transport === "tube" }
+  end
+
+  def journies_begin_outside_zone_one?
+    daily_journies.all?{|journey| journey.zone_in != nil && !journey.zone_in.include?(1) }
+  end
+
+  def journies_end_outside_zone_one?
+    daily_journies.all?{|journey| journey.zone_out != nil && !journey.zone_out.include?(1) }
   end
 end

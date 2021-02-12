@@ -30,15 +30,11 @@ class FareCalculator
   end
 
   def any_one_zone_outside_zone_one?
-    daily_journies.count === 1 &&
-    journies_begin_outside_zone_one? &&
-    journies_end_outside_zone_one?
+    daily_journies.count === 1 && any_journey_outside_zone_one?
   end
 
   def any_two_zones_excluding_zone_one?
-    daily_journies.count === 2 &&
-    journies_begin_outside_zone_one? &&
-    journies_end_outside_zone_one?
+    daily_journies.count === 2 && any_journey_outside_zone_one?
   end
 
   def single_journey_in_zone_one?
@@ -57,12 +53,11 @@ class FareCalculator
     daily_journies.all?{|journey| journey.transport === "tube" }
   end
 
-  def journies_begin_outside_zone_one?
-    daily_journies.all?{|journey| journey.zone_in != nil && !journey.zone_in.include?(1) }
-  end
-
-  def journies_end_outside_zone_one?
-    daily_journies.all?{|journey| journey.zone_out != nil && !journey.zone_out.include?(1) }
+  def any_journey_outside_zone_one?
+    daily_journies.all? do |journey|
+      (journey.zone_in != nil && !journey.zone_in.include?(1)) ||
+      (journey.zone_out != nil && !journey.zone_out.include?(1))
+    end
   end
 
   def any_journey_in_zone_one?
